@@ -30,69 +30,29 @@
 <div class="row">
   <div class="col-md-12">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="{{ url_for('index') }}">Photogram</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          {% if title == 'Home' %}
-            <li class="nav-itemactive">
-          {% else %}
-            <li class="nav-item">
-          {% endif %}
-            <a class="nav-link" href="{{ url_for('index') }}"><i class="material-icons">home</i> <span class="sr-only">(current)</span></a>
-          </li>
+      <a class="navbar-brand" href="{{ url_for('index') }}"><span class="home_icon"><i class="material-icons">home</i></span>&nbsp&nbsp Photogram</a>
 
-          {% if title == 'Checkout' %}
-            <li class="nav-item active">
-          {% else %}
-            <li class="nav-item">
-          {% endif %}
-            <a class="nav-link" href="{{ url_for('checkout') }}">Checkout</a>
-          </li>
+      {% if current_user.is_authenticated %}
+        <a class="navbar-brand" href="{{ url_for('posts', username=current_user.username) }}"><span class="home_icon"><i class="material-icons">person</i></span>&nbsp&nbsp You</a>
+      {% else %}
+        <a class="navbar-brand" href="{{ url_for('login') }}"><span class="home_icon"><i class="material-icons">person</i></span>&nbsp&nbsp User</a>
+      {% endif %}
 
-          {% if current_user.is_authenticated %}##
-            {% if title == 'Posts' %}
-              <li class="nav-item active">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="navbar-brand nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="home_icon"><i class="material-icons">star</i></span>&nbsp&nbsp Welcome</a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            {% if current_user.is_authenticated %}
+              <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
             {% else %}
-              <li class="nav-item">
+              <a class="dropdown-item" href="{{ url_for('login') }}">Login</a>
+              <a class="dropdown-item" href="{{ url_for('register') }}">Register</a>
             {% endif %}
-              <a class="nav-link" href="{{ url_for('posts', username=current_user.username) }}">Posts</a>
-            </li>
-          {% endif %}
-
-          {% if title == 'Title' %}
-            <li class="nav-item active">
-          {% else %}
-            <li class="nav-item">
-          {% endif %}
-            <a class="nav-link" href="{{ url_for('title') }}">Title</a>
-          </li>
-          {% if current_user.is_authenticated %}
-            <!-- put logout link here -->
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-            </li>
-          {% else %}
-            {% if title == 'Login' %}
-              <li class="nav-item active">
-            {% else %}
-              <li class="nav-item">
-            {% endif %}
-              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-            </li>
-            {% if title == 'Register' %}
-              <li class="nav-item active">
-            {% else %}
-              <li class="nav-item">
-            {% endif %}
-              <a class="nav-link" href="{{ url_for('register') }}">Register</a>
-            </li>
-          {% endif %}
-        </ul>
-      </div>
+          </div>
+        </li>
+      </ul>
     </nav>
   </div> <!--ends col-md-12 for nav-->
 </div> <!--ends row for nav-->
@@ -117,13 +77,13 @@
   <footer>
     <div class="row top-margin-lg">
       <div class="col-md-4">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       </div> <!--ends col-md-4 for footer-->
       <div class="col-md-4">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       </div> <!--ends col-md-4 for footer-->
       <div class="col-md-4">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       </div> <!--ends col-md-4 for footer-->
     </div> <!--ends row for footer-->
   </footer>

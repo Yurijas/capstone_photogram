@@ -28,7 +28,8 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    tweet = db.Column(db.String(140))
+    url =db.Column(db.String(150))
+    desc = db.Column(db.String(140))
     date_posted = db.Column(db.DateTime, default=datetime.now().date())
 
 

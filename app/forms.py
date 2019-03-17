@@ -4,13 +4,10 @@ from flask import flash
 from app.models import User
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
-class TitleForm(FlaskForm):
-    title = StringField('Title:', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
 class PostForm(FlaskForm):
-    tweet = StringField('What are you doing?', validators=[DataRequired()])
-    submit = SubmitField('Tweet')
+    url = StringField('Post Pic URL:', validators=[DataRequired()])
+    desc = StringField('Description of your photo: ')
+    submit = SubmitField('Post')
 
 class LoginForm(FlaskForm):
     username = StringField('Username:', validators=[DataRequired()])

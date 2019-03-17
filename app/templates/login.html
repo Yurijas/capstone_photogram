@@ -12,6 +12,7 @@
       <div class="col-md-4 offset-md-4">
         <h1>{{ title }}</h1>
         {{ wtf.quick_form(form) }}
+        <p>* You don't have an account? Please register from <a href="{{ url_for('register') }}">here</a>.</p>
       </div>
     </div> <!-- ends row -->
   </div> <!-- ends container -->

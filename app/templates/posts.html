@@ -10,7 +10,7 @@
   <div class="container top-margin-lg">
     <div class="row">
       <!-- starts profile section -->
-      <div class="col-md-3">
+      <div class="col-md-10 offset-md-1">
         <div class="card">
           <div class="card-img-top">
             <img src="{{ person.url }}" alt="Profile Image" class="product-img">
@@ -25,8 +25,8 @@
       </div> <!-- ends col-md-3 -->
       <!-- ends profile section -->
 
-      <!-- starts tweet section -->
-      <div class="col-md-8 offset-md-1">
+      <!-- starts post-img section -->
+      <div class="col-md-10 offset-md-1">
         <!-- start post form -->
         {% if current_user.username == username %}
           <div class="row">
@@ -39,20 +39,33 @@
         {% endif %}
         <!-- ends post form -->
 
-        {% for post in person.posts %}
-          <div class="row top-margin-sm">
-            <div class="col-md-12">
-              <div class="card">
-                <img src="http://placehold.it/30x30" alt="Profile Image" class="prof_pic">
-                <p class="card-subtitle">{{ post.date_posted.date() }}</p>
-                <p class="card-subtitle">@{{ person.username }}</p>
-                <h4>{{ post.tweet }}</h4>
-              </div>
-            </div> <!-- ends col-md-12 for tweet -->
-          </div> <!-- ends row for tweet -->
-        {% endfor %}
+        <div class="container">
+          <!-- loop.index if how to create a row for every 3 items -->
+          {% for post in person.posts %}
+            {% if loop.index == 1 or loop.index % 3 == 1 %}
+              <div class="row top-margin-lg">
+            {% endif %}
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-img-top">
+                    <img src="http://placehold.it/250x250" alt="Posted Image" class="posted-pic">
+                  </div>
+                  <div class="card-img-top">
+                    <p class="card-title">@{{ person.username }}</p>
+                    <p class="card-text">{{ post.desc }}</p>
+                    <p class="card-subtitle">{{ post.date_posted.date() }}</p>
+                  </div>
+                </div> <!--ends card-->
+              </div> <!--ends col-md-4 for card-->
+            {% if loop.index % 3 == 0 or loop.length == loop.index %}
+              </div> <!--ends row for card-->
+            {% endif %}
+          {% endfor %}
+          <!-- end products being shown -->
+        </div> <!--ends container-->
+
       </div> <!-- ends col-md-8 -->
-      <!-- ends tweet section -->
+      <!-- ends post-img section -->
 
     </div> <!-- ends row -->
   </div> <!-- ends container -->
