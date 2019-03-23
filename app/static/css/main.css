@@ -25,7 +25,18 @@ body {
 .product-img {
   display: block;
   margin: 25px auto;
-  width: 100%
+  width: 100%;
+}
+
+.profile-img {
+  float: left;
+  max-width: 50%;
+  margin-right: 25px;
+}
+
+p.txt-under-form {
+  display: inline-block;
+  float: left;
 }
 
 .card-title {
@@ -58,8 +69,8 @@ body {
   margin-top: 15px;
 }
 
-footer {
-  background-color: rgba(0, 0, 0, 0.8);
+footer-copyright a  {
+  color: white;
 }
 
 footer p {

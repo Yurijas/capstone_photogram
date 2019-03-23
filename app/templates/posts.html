@@ -12,15 +12,12 @@
       <!-- starts profile section -->
       <div class="col-md-10 offset-md-1">
         <div class="card">
-          <div class="card-img-top">
-            <img src="{{ person.url }}" alt="Profile Image" class="product-img">
+          <div class="profile">
+            <img src="{{ person.url }}" alt="Profile Image" class="profile-img">
+            <p class="card-title">@{{ person.username }}</p>
+            <p class="card-text">{{ person.bio }}</p>
+            <button class="btn btn-primary">Update</button>
           </div>
-          <div class="card-title">{{ person.first_name }} {{ person.last_name }}</div>
-          <div class="card-subtitle">@{{ person.username }}</div>
-          <div class="card-text">
-            <p>{{ person.bio }}</p>
-          </div>
-          <button class="btn btn-primary">Follow</button>
         </div>
       </div> <!-- ends col-md-3 -->
       <!-- ends profile section -->
@@ -30,23 +27,24 @@
         <div class="float-right mb-4 mt-2">
           <input type="hidden" role="uploadcare-uploader" id="uploadedImage" data-preview-step="true" data-effects="crop,rotate,enhance,sharp,grayscale" />
         </div>
-        <h2 class="mb-4">Simple Image Hosting</h2>
-        <div class="row" id="imagesContainer"></div>
+        <h2 class="mb-4">Your Photos</h2>
+        <div class="row" id="imagesContainer">
+        </div> <!--ends row for card-->
       </div>
       <!-- end photo upload by uploadcare section -->
 
       <!-- starts post-img section -->
-      <div class="col-md-10 offset-md-1">
+      <!-- <div class="col-md-10 offset-md-1"> -->
         <!-- start post form -->
-        {% if current_user.username == username %}
+     <!-- if current_user.username == username
           <div class="row">
             <div class="col-md-12">
               <div class="card">
-                {{ wtf.quick_form(form) }}
-              </div> <!-- ends card -->
-            </div> <!-- ends col-md-12 -->
-          </div> <!-- ends row -->
-        {% endif %}
+                 wtf.quick_form(form)  -->
+              <!-- </div> <!-- ends card -->
+            <!-- </div> <!-- ends col-md-12 -->
+          <!-- </div> <!-- ends row -->
+         <!-- endif  -->
         <!-- ends post form -->
 
         <div class="container">

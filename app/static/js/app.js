@@ -1,5 +1,8 @@
 // ----- image uploader -----
 window.UPLOADCARE_PUBLIC_KEY = '4946b69592876e878d98'
+UPLOADCARE_TABS = 'file url';
+UPLOADCARE_CLEARABLE = 'true';
+UPLOADCARE_IMAGE_SHRINK = '200x200';
 uploadcare.registerTab('preview', uploadcareTabEffects);
 
 const widget = uploadcare.Widget('[role=uploadcare-uploader]');

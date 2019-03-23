@@ -6,9 +6,6 @@ from flask_login import UserMixin
 
 class User(db.Model, UserMixin):
     id =db.Column(db.Integer, primary_key=True)
-    first_name =db.Column(db.String(50))
-    last_name =db.Column(db.String(50))
-    age =db.Column(db.Integer)
     bio =db.Column(db.String(150))
     url =db.Column(db.String(150))
     username =db.Column(db.String(30), unique=True, index=True)
@@ -22,6 +19,19 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
 
 
 class Post(db.Model):

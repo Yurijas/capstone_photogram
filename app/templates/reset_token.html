@@ -2,7 +2,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block title %}
-  {{ super() }} - Login
+  {{ super() }} - Reset Token
 {% endblock %}
 
 
@@ -12,12 +12,6 @@
       <div class="col-md-4 offset-md-4">
         <h1>{{ title }}</h1>
         {{ wtf.quick_form(form) }}
-        <p class="txt-under-form"><a href="#">*Forgot your password?</a>.</p>
-      </div>
-    </div> <!-- ends row -->
-    <div class="row">
-      <div class="col-md-4 offset-md-4">
-        <p class="txt-under-form">* You can make your account from <a href="{{ url_for('register') }}">here</a>.</p>
       </div>
     </div> <!-- ends row -->
   </div> <!-- ends container -->
