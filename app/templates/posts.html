@@ -16,7 +16,7 @@
             <!-- <div id="dropzone">Drop Here</div>
             <img id="result" /> -->
             {% if person.url != "http://placehold.it/250x250" %}
-              <img src="{{ person.url }}" alt="Profile Image" class="profile-img">
+              <img src="../static/profile_images/{{ person.url }}" alt="Profile Image" class="profile-img">
             {% else %}
               <img src="{{ person.avatar(128) }}" alt="Profile Image" class="profile-img">
              {% endif %}
@@ -25,8 +25,7 @@
               <p class="card-text">{{ person.bio }}</p>
             {% endif %}
             {% if person == current_user %}
-              <button class="btn btn-primary" onclick="">Edit your profile</button>
-              <p><a class = "edit_profile_button" href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+              <button class="btn btn-primary" onclick="window.location.href='{{ url_for('edit_profile') }}'">Edit your profile</button>
             {% endif %}
           </div>
         </div>

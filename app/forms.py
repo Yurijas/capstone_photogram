@@ -46,7 +46,7 @@ class ResetPasswordForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     bio = StringField('About me: ')
-    url = StringField('Profile Pic URL:')
+    pic = FileField()
     submit = SubmitField('Submit')
 
 # , validators=[FileAllowed('jpg', 'png')]

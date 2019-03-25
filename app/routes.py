@@ -142,13 +142,22 @@ def edit_profile():
         # if form.url.data:
         #     picture_file = save_picture(form.url.data)
         #     current_user.url = picture_file
-        current_user.url = form.url.data
+        # pointing to directory for images
+        profile_basedir = os.path.abspath(os.path.dirname(__file__)) + '/static/profile_images/'
+
+        # setting the name of image
+        profile_filename = current_user.username+ '_profile.png'
+
+        # save pic
+        form.pic.data.save(profile_basedir + profile_filename)
+
+        current_user.url = profile_filename
         current_user.bio = form.bio.data
         db.session.commit()
         flash('Your changes have been saved. Please go back to your account page.')
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
-        form.url.data = current_user.url
+        form.pic.data = current_user.url
         form.bio.data = current_user.bio
     return render_template('edit_profile.html', title='Edit Profile', form=form)
 
