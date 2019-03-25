@@ -9,17 +9,17 @@
 
 {% block app_content %}
   <div class="container mt-4">
-    <div class="float-right mb-4 mt-2">
+    <div class="float-right mb-6 mt-1">
       <input type="hidden" role="uploadcare-uploader" id="uploadedImage" data-preview-step="true" data-effects="crop,rotate,enhance,sharp,grayscale" />
     </div>
-    <h2 class="mb-4">Photo Feed</h2>
+    <h2 class="mb-6">Photo Feed</h2>
     <div class="row" id="imagesContainer">
     </div> <!--ends row for card-->
   </div>
 
   <div class="container">
     <!-- loop.index if how to create a row for every 3 items -->
-    {% for allpost in people %}
+    {% for post in posts %}
       {% if loop.index == 1 or loop.index % 3 == 1 %}
         <div class="row top-margin-lg">
       {% endif %}
@@ -28,9 +28,9 @@
               <img src="http://placehold.it/250x250" alt="Posted Image" class="posted-pic">
             </div>
             <div class="card-img-top">
-              <p class="card-title">@{{ people.username }}</p>
-              <p class="card-text">{{ people.desc }}</p>
-              <p class="card-subtitle">{{ people.date_posted }}</p>
+              <p class="card-title">@{{ post.author.username }}</p>
+              <p class="card-text">{{ post.body }}</p>
+              <p class="card-subtitle">{{ post.date_posted }}</p>
             </div>
           </div> <!--ends card-->
         </div> <!--ends col-md-4 for card-->

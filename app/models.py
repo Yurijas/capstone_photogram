@@ -2,12 +2,12 @@ from app import app, db, login
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
+from hashlib import md5
 
 class User(db.Model, UserMixin):
     id =db.Column(db.Integer, primary_key=True)
     bio =db.Column(db.String(150))
-    url =db.Column(db.String(150))
+    url =db.Column(db.String(150), default="http://placehold.it/250x250")
     username =db.Column(db.String(30), unique=True, index=True)
     email =db.Column(db.String(120), unique=True)
     password_hash =db.Column(db.String(256))
@@ -23,6 +23,11 @@ class User(db.Model, UserMixin):
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
 
     @staticmethod
     def verify_reset_token(token):

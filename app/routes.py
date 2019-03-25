@@ -1,7 +1,9 @@
+import os
+import secrets
+from PIL import Image
 from app import app, db , mail
-# from PIL import image
 from flask import render_template, url_for, redirect, flash, request
-from app.forms import PostForm, LoginForm, RegisterForm, RequestResetForm, ResetPasswordForm
+from app.forms import PostForm, LoginForm, RegisterForm, RequestResetForm, ResetPasswordForm, EditProfileForm
 from app.models import Post, User
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_mail import Message
@@ -11,39 +13,48 @@ from flask_mail import Message
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     # fake data for a while
-    people = [
-        {
-            'id': 1001,
-            'username': 'user1',
-            'desc': 'photo',
-            'date_posted': 3.98
+    # people = [
+    #     {
+    #         'id': 1001,
+    #         'username': 'user1',
+    #         'desc': 'photo',
+    #         'date_posted': 3.98
+    #
+    #     },
+    #     {
+    #         'id': 1002,
+    #         'username': 'user2',
+    #         'desc': 'photo',
+    #         'date_posted': 3.98
+    #     },
+    #     {
+    #         'id': 1003,
+    #         'username': 'user3',
+    #         'desc': 'photo',
+    #         'date_posted': 3.98
+    #     },
+    #     {
+    #         'id': 1004,
+    #         'username': 'user4',
+    #         'desc': 'photo',
+    #         'date_posted': 3.98
+    #     }
+    # ]
+    # person = User.query.filter_by(username=username).first()
+    # posts = [
+    #     {'author': person, 'body': 'Test post #1'},
+    #     {'author': person, 'body': 'Test post #2'}
+    # ]
+    return render_template('index.html')
 
-        },
-        {
-            'id': 1002,
-            'username': 'user2',
-            'desc': 'photo',
-            'date_posted': 3.98
-        },
-        {
-            'id': 1003,
-            'username': 'user3',
-            'desc': 'photo',
-            'date_posted': 3.98
-        },
-        {
-            'id': 1004,
-            'username': 'user4',
-            'desc': 'photo',
-            'date_posted': 3.98
-        }
-    ]
-    return render_template('index.html', people=people)
+# /index/<username>
+# person=person, , posts=posts
 
 @login_required
 @app.route('/posts/<username>', methods=['GET', 'POST'])
 def posts(username):
     form = PostForm()
+    url = url_for('static', filename='profile_pics/' + current_user.url)
     # query database for proper person
     person = User.query.filter_by(username=username).first()
     # when form is submitted appends to post lists, re-render posts page
@@ -56,7 +67,7 @@ def posts(username):
 
         return redirect(url_for('posts', username=username))
 
-    return render_template('posts.html', person=person, title='Posts', form=form, username=username)
+    return render_template('posts.html', person=person, title='Posts', form=form, username=username, url=url)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -92,15 +103,9 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         user = User(
-            first_name = form.first_name.data,
-            last_name = form.last_name.data,
             username = form.username.data,
-            email = form.email.data,
-            url = form.url.data,
-            age = int(form.age.data),
-            bio = form.bio.data
+            email = form.email.data
         )
-
         # set the password hash
         user.set_password(form.password.data)
         # add to stage and commit to db, then flash and return
@@ -116,7 +121,36 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_gn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
 
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        # if form.url.data:
+        #     picture_file = save_picture(form.url.data)
+        #     current_user.url = picture_file
+        current_user.url = form.url.data
+        current_user.bio = form.bio.data
+        db.session.commit()
+        flash('Your changes have been saved. Please go back to your account page.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        form.url.data = current_user.url
+        form.bio.data = current_user.bio
+    return render_template('edit_profile.html', title='Edit Profile', form=form)
 
 def send_reset_email(user):
     token = user.get_reset_token()
@@ -126,7 +160,7 @@ def send_reset_email(user):
     mail.send(msg)
 
 
-app.route('/reset_password', methods=['GET', 'POST'])
+@app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
         flash('You are already logged in!')
@@ -140,7 +174,7 @@ def reset_request():
     return render_template('reset_request.html', title='Reset Password', form=form)
 
 
-app.route('/reset_password/<token>', methods=['GET', 'POST'])
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('index'))

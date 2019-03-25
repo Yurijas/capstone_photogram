@@ -13,10 +13,21 @@
       <div class="col-md-10 offset-md-1">
         <div class="card">
           <div class="profile">
-            <img src="{{ person.url }}" alt="Profile Image" class="profile-img">
+            <!-- <div id="dropzone">Drop Here</div>
+            <img id="result" /> -->
+            {% if person.url != "http://placehold.it/250x250" %}
+              <img src="{{ person.url }}" alt="Profile Image" class="profile-img">
+            {% else %}
+              <img src="{{ person.avatar(128) }}" alt="Profile Image" class="profile-img">
+             {% endif %}
             <p class="card-title">@{{ person.username }}</p>
-            <p class="card-text">{{ person.bio }}</p>
-            <button class="btn btn-primary">Update</button>
+            {% if person.bio %}
+              <p class="card-text">{{ person.bio }}</p>
+            {% endif %}
+            {% if person == current_user %}
+              <button class="btn btn-primary" onclick="">Edit your profile</button>
+              <p><a class = "edit_profile_button" href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+            {% endif %}
           </div>
         </div>
       </div> <!-- ends col-md-3 -->
@@ -24,10 +35,10 @@
 
       <!-- photo upload by uploadcare section -->
       <div class="container mt-4">
-        <div class="float-right mb-4 mt-2">
+        <div class="float-right mb-6 mt-1">
           <input type="hidden" role="uploadcare-uploader" id="uploadedImage" data-preview-step="true" data-effects="crop,rotate,enhance,sharp,grayscale" />
         </div>
-        <h2 class="mb-4">Your Photos</h2>
+        <h2 class="mb-6">Your Photos</h2>
         <div class="row" id="imagesContainer">
         </div> <!--ends row for card-->
       </div>
@@ -59,6 +70,7 @@
                     <img src="http://placehold.it/250x250" alt="Posted Image" class="posted-pic">
                   </div>
                   <div class="card-img-top">
+                    <img src="{{ person.avatar(36) }}" alt="Profile Image Small" class="profile-img-small">
                     <p class="card-title">@{{ person.username }}</p>
                     <p class="card-text">{{ post.desc }}</p>
                     <p class="card-subtitle">{{ post.date_posted.date() }}</p>

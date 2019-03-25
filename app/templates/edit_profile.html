@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}
+  {{ super() }} - Edit profile
+{% endblock %}
+
+
+{% block app_content %}
+  <div class="container top-margin-lg">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1>{{ title }}</h1>
+        {{ wtf.quick_form(form) }}
+        <!-- <form action="" method="POST" enctype="multipart/form-data">
+          <div class="form-profile-pic">
+             form.url.label(class="form-control-file")
+             form.url() 
+             if form.url.errors
+               for error in form.url.errors
+                <span class="text-danger"> error </span>
+               endfor
+             endif
+          </div>
+        </form> -->
+      </div>
+    </div> <!-- ends row -->
+  </div> <!-- ends container -->
+{% endblock %}

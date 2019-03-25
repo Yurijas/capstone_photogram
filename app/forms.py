@@ -19,11 +19,9 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     username = StringField('Username:', validators=[DataRequired()])
     email = StringField('E-mail:', validators=[DataRequired(), Email()])
-    bio = StringField('Write about yourself:')
-    url = StringField('Profile Pic URL:')
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Re-type Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
+    submit = SubmitField('Create Account')
 
     # setup validation methods to be checked when form is submitted
     def validate_username(self, username):
@@ -45,6 +43,13 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Re-type Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+
+class EditProfileForm(FlaskForm):
+    bio = StringField('About me: ')
+    url = StringField('Profile Pic URL:')
+    submit = SubmitField('Submit')
+
+# , validators=[FileAllowed('jpg', 'png')]
 
 # class UpdateInfoForm(FlaskForm):
 #     username = StringField('Username:', validators=[DataRequired()])
