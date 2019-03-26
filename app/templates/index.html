@@ -8,38 +8,53 @@
 
 
 {% block app_content %}
-  <div class="container mt-4">
+  <!-- <div class="container mt-4">
     <div class="float-right mb-6 mt-1">
       <input type="hidden" role="uploadcare-uploader" id="uploadedImage" data-preview-step="true" data-effects="crop,rotate,enhance,sharp,grayscale" />
     </div>
     <h2 class="mb-6">Photo Feed</h2>
     <div class="row" id="imagesContainer">
     </div> <!--ends row for card-->
-  </div>
+  <!-- </div> -->
 
   <div class="container">
-    <!-- loop.index if how to create a row for every 3 items -->
-    {% for post in posts %}
-      {% if loop.index == 1 or loop.index % 3 == 1 %}
-        <div class="row top-margin-lg">
-      {% endif %}
-        <div class="col-md-4">
-          <div class="card">
-              <img src="http://placehold.it/250x250" alt="Posted Image" class="posted-pic">
-            </div>
-            <div class="card-img-top">
-              <p class="card-title">@{{ post.author.username }}</p>
-              <p class="card-text">{{ post.body }}</p>
-              <p class="card-subtitle">{{ post.date_posted }}</p>
-            </div>
-          </div> <!--ends card-->
-        </div> <!--ends col-md-4 for card-->
-      {% if loop.index % 3 == 0 or loop.length == loop.index %}
-
-        </div> <!--ends row for card-->
-      {% endif %}
-    {% endfor %}
-    <!-- end products being shown -->
-
+    <div class="col-md-12">
+      <!-- loop.index if how to create a row for every 3 items -->
+      {% for image_folder in images %}
+        {% for image in image_folder %}
+          {% if loop.index == 1 or loop.index % 3 == 1 %}
+            <div class="row top-margin-lg">
+          {% endif %}
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-img-top">
+                  <img src="../static/images/{{person.username}}/{{ loop.index - 1 }}_post.png" alt="Posted Image" class="posted-pic">
+                </div>
+                <div class="card-bottom">
+                  <div class="col-md-5">
+                    {% if person.url != "http://placehold.it/250x250" %}
+                      <img src="../static/profile_images/{{ person.url }}" alt="Profile Image" class="profile-img">
+                    {% else %}
+                      <img src="{{ person.avatar(36) }}" alt="Profile Image Small" class="profile-img">
+                    {% endif %}
+                  </div><!--ends col-md-5-->
+                  <p class="card-title">@{{ person.username }}</p>
+                  <p class="card-text">{{ post.desc }}</p>
+                  <p class="card-subtitle">{{ post.date_posted.date() }}</p>
+                </div><!--ends card-bottom-->
+              </div> <!--ends card-->
+            </div> <!--ends col-md-4 for card-->
+          {% if loop.index % 3 == 0 or loop.length == loop.index %}
+            </div> <!--ends row for card-->
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+      <!-- end products being shown -->
+    </div> <!-- ends col-md-12 -->
   </div> <!--ends container-->
+
+  <!-- ends post-img section -->
+
+</div> <!-- ends row -->
+</div> <!-- ends container -->
 {% endblock %}

@@ -1,6 +1,6 @@
 import os
 import secrets
-from PIL import Image
+# from PIL import Image
 from app import app, db , mail
 from flask import render_template, url_for, redirect, flash, request
 from app.forms import PostForm, LoginForm, RegisterForm, RequestResetForm, ResetPasswordForm, EditProfileForm
@@ -13,33 +13,6 @@ from flask_mail import Message
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     # fake data for a while
-    # people = [
-    #     {
-    #         'id': 1001,
-    #         'username': 'user1',
-    #         'desc': 'photo',
-    #         'date_posted': 3.98
-    #
-    #     },
-    #     {
-    #         'id': 1002,
-    #         'username': 'user2',
-    #         'desc': 'photo',
-    #         'date_posted': 3.98
-    #     },
-    #     {
-    #         'id': 1003,
-    #         'username': 'user3',
-    #         'desc': 'photo',
-    #         'date_posted': 3.98
-    #     },
-    #     {
-    #         'id': 1004,
-    #         'username': 'user4',
-    #         'desc': 'photo',
-    #         'date_posted': 3.98
-    #     }
-    # ]
     # person = User.query.filter_by(username=username).first()
     # posts = [
     #     {'author': person, 'body': 'Test post #1'},
@@ -54,20 +27,43 @@ def index():
 @app.route('/posts/<username>', methods=['GET', 'POST'])
 def posts(username):
     form = PostForm()
-    url = url_for('static', filename='profile_pics/' + current_user.url)
+    # url = url_for('static', filename='profile_pics/' + current_user.url)
     # query database for proper person
     person = User.query.filter_by(username=username).first()
     # when form is submitted appends to post lists, re-render posts page
     if form.validate_on_submit():
-        desc = form.desc.data
-        post = Post(desc=desc, user_id=current_user.id)
+        # setting the name of the folder
+        post_foldername = current_user.username
+        # pointing to directory for user image folder
+        img_path = os.path.abspath(os.path.dirname(__file__)) + '/static/images/'
+        # making folder for each user
+        if not os.path.exists(img_path + post_foldername):
+            os.mkdir(img_path + post_foldername)
+
+        # pointing to directory for images
+        post_basedir = os.path.abspath(os.path.dirname(__file__)) + '/static/images/' + post_foldername + '/'
+
+        # setting the name of image
+        num = len(current_user.posts)
+        post_filename = str(num) + '_post.png'
+        # save pic
+        url = post_basedir + post_filename
+        form.pic.data.save(url)
+
+        # resize with Pillow
+        # im = Image.open(url)
+        # Image.resize((100,100), Image.ANTIALIAS)
+        # url.save(url)
+
+
+        post = Post(desc=form.desc.data, user_id=current_user.id, url=url)
         # add post variable to database stage, then commit
         db.session.add(post)
         db.session.commit()
-
+        flash('Your photo has been posted!.')
         return redirect(url_for('posts', username=username))
+    return render_template('posts.html', person=person, title='Posts', form=form, username=username)
 
-    return render_template('posts.html', person=person, title='Posts', form=form, username=username, url=url)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -121,18 +117,18 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_gn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
-
-    output_size = (125, 125)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
-
-    return picture_fn
+# def save_picture(form_picture):
+#     random_hex = secrets.token_hex(8)
+#     _, f_ext = os.path.splitext(form_picture.filename)
+#     picture_gn = random_hex + f_ext
+#     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+#
+#     output_size = (125, 125)
+#     i = Image.open(form_picture)
+#     i.thumbnail(output_size)
+#     i.save(picture_path)
+#
+#     return picture_fn
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

@@ -12,52 +12,58 @@
       <!-- starts profile section -->
       <div class="col-md-10 offset-md-1">
         <div class="card">
-          <div class="profile">
+          <div class="row profile">
             <!-- <div id="dropzone">Drop Here</div>
             <img id="result" /> -->
-            {% if person.url != "http://placehold.it/250x250" %}
-              <img src="../static/profile_images/{{ person.url }}" alt="Profile Image" class="profile-img">
-            {% else %}
-              <img src="{{ person.avatar(128) }}" alt="Profile Image" class="profile-img">
-             {% endif %}
-            <p class="card-title">@{{ person.username }}</p>
-            {% if person.bio %}
-              <p class="card-text">{{ person.bio }}</p>
-            {% endif %}
-            {% if person == current_user %}
-              <button class="btn btn-primary" onclick="window.location.href='{{ url_for('edit_profile') }}'">Edit your profile</button>
-            {% endif %}
+            <div class="col-md-5">
+              {% if person.url != "http://placehold.it/250x250" %}
+                <img src="../static/profile_images/{{ person.url }}" alt="Profile Image" class="profile-img">
+              {% else %}
+                <img src="{{ person.avatar(128) }}" alt="Profile Image" class="profile-img">
+              {% endif %}
+            </div><!-- ends col-md-5 -->
+            <div class="col-md-7">
+              <p class="card-title">@{{ person.username }}</p>
+              {% if person.bio %}
+                <p class="card-text">{{ person.bio }}</p>
+              {% endif %}
+              {% if person == current_user %}
+                <button class="btn btn-primary" onclick="window.location.href='{{ url_for('edit_profile') }}'">Edit your profile</button>
+              {% endif %}
+            </div><!-- ends col-md-7 -->
           </div>
         </div>
       </div> <!-- ends col-md-3 -->
       <!-- ends profile section -->
 
       <!-- photo upload by uploadcare section -->
-      <div class="container mt-4">
+      <!-- <div class="container mt-4">
         <div class="float-right mb-6 mt-1">
           <input type="hidden" role="uploadcare-uploader" id="uploadedImage" data-preview-step="true" data-effects="crop,rotate,enhance,sharp,grayscale" />
         </div>
         <h2 class="mb-6">Your Photos</h2>
         <div class="row" id="imagesContainer">
         </div> <!--ends row for card-->
-      </div>
+      <!--</div> -->
       <!-- end photo upload by uploadcare section -->
 
       <!-- starts post-img section -->
-      <!-- <div class="col-md-10 offset-md-1"> -->
+      <div class="col-md-10 offset-md-1">
         <!-- start post form -->
-     <!-- if current_user.username == username
+        {% if current_user.username == username %}
           <div class="row">
             <div class="col-md-12">
               <div class="card">
-                 wtf.quick_form(form)  -->
-              <!-- </div> <!-- ends card -->
-            <!-- </div> <!-- ends col-md-12 -->
-          <!-- </div> <!-- ends row -->
-         <!-- endif  -->
+                {{ wtf.quick_form(form) }}
+              </div> <!-- ends card -->
+            </div> <!-- ends col-md-12 -->
+          </div> <!-- ends row -->
+        {% endif %}
         <!-- ends post form -->
+      </div> <!-- ends col-md-10 -->
 
-        <div class="container">
+      <div class="container">
+        <div class="col-md-12">
           <!-- loop.index if how to create a row for every 3 items -->
           {% for post in person.posts %}
             {% if loop.index == 1 or loop.index % 3 == 1 %}
@@ -66,10 +72,16 @@
               <div class="col-md-4">
                 <div class="card">
                   <div class="card-img-top">
-                    <img src="http://placehold.it/250x250" alt="Posted Image" class="posted-pic">
+                    <img src="../static/images/{{person.username}}/{{ loop.index - 1 }}_post.png" alt="Posted Image" class="posted-pic">
                   </div>
-                  <div class="card-img-top">
-                    <img src="{{ person.avatar(36) }}" alt="Profile Image Small" class="profile-img-small">
+                  <div class="card-bottom">
+                    <div class="col-md-5">
+                      {% if person.url != "http://placehold.it/250x250" %}
+                        <img src="../static/profile_images/{{ person.url }}" alt="Profile Image" class="profile-img">
+                      {% else %}
+                        <img src="{{ person.avatar(36) }}" alt="Profile Image Small" class="profile-img">
+                      {% endif %}
+                    </div><!--ends col-md-5-->
                     <p class="card-title">@{{ person.username }}</p>
                     <p class="card-text">{{ post.desc }}</p>
                     <p class="card-subtitle">{{ post.date_posted.date() }}</p>
@@ -81,9 +93,9 @@
             {% endif %}
           {% endfor %}
           <!-- end products being shown -->
-        </div> <!--ends container-->
+        </div> <!-- ends col-md-12 -->
+      </div> <!--ends container-->
 
-      </div> <!-- ends col-md-8 -->
       <!-- ends post-img section -->
 
     </div> <!-- ends row -->

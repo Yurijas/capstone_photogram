@@ -46,6 +46,7 @@ function fetchImages() {
 }
 
 function saveImage(url) {
+  console.log(url);
   return new Promise(resolve => {
     images.push(url)
     localStorage.setItem('images', JSON.stringify(images))

@@ -6,8 +6,8 @@ from app.models import User
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 class PostForm(FlaskForm):
-    url = StringField('Post Pic URL:', validators=[DataRequired()])
-    desc = StringField('Description of your photo: ')
+    pic = FileField('Choose picture: ')
+    desc = StringField('Tell me about this picture: ')
     submit = SubmitField('Post')
 
 class LoginForm(FlaskForm):
