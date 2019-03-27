@@ -47,7 +47,7 @@ def posts(username):
         # resize with Pillow
         # im = Image.open(url)
         # Image.resize((100,100), Image.ANTIALIAS)
-        # url.save(url)
+        # im.save(url)
 
         post = Post(desc=form.desc.data, user_id=current_user.id, url=url)
         # add post variable to database stage, then commit
