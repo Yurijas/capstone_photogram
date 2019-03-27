@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     email =db.Column(db.String(120), unique=True)
     password_hash =db.Column(db.String(256))
     posts =db.relationship('Post', backref=db.backref('user', lazy='joined'))
-    # public = db.Column(db.Boolean)
+    private = db.Column(db.Boolean, default=False)
 
     # setup methods to set and check password_hash
     def set_password(self, password):

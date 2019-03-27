@@ -5,11 +5,14 @@ body {
 }
 
 .messages {
-  position: fixed;
+  position:relative;
   top: 70px;
   left: 10px;
   color: blue;
   font-weight: bold;
+  text-shadow: 1px 1px grey;
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
 }
 
 .top-margin-lg {
@@ -54,6 +57,10 @@ h2.mb-6 {
 .card {
   padding: 25px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+p.card-title {
+  max-width: 100%;
 }
 
 .product-img {
@@ -132,6 +139,10 @@ footer {
 }
 
 
+/*****************************************
+screen size adjustment and animation
+*****************************************/
+/* profile img size adjustment */
 @media only screen and (max-width: 768px) {
   .profile-img {
     float: left;
@@ -141,3 +152,24 @@ footer {
     border-radius: 50%;
   }
 }
+
+/* starts messages fade out */
+.messages {
+  -webkit-animation-duration: 10s;
+  animation-duration: 10s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}
+/* ends messages fade out */

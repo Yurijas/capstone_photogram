@@ -47,6 +47,7 @@ class ResetPasswordForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     bio = StringField('About me: ')
     pic = FileField()
+    private = BooleanField('Make your account public')
     submit = SubmitField('Submit')
 
 # , validators=[FileAllowed('jpg', 'png')]

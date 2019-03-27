@@ -12,16 +12,10 @@ from flask_mail import Message
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    # fake data for a while
-    # person = User.query.filter_by(username=username).first()
-    # posts = [
-    #     {'author': person, 'body': 'Test post #1'},
-    #     {'author': person, 'body': 'Test post #2'}
-    # ]
-    return render_template('index.html')
+    public_person = User.query.filter_by(private=True)
 
-# /index/<username>
-# person=person, , posts=posts
+    return render_template('index.html', public_person=public_person)
+
 
 @login_required
 @app.route('/posts/<username>', methods=['GET', 'POST'])
@@ -54,7 +48,6 @@ def posts(username):
         # im = Image.open(url)
         # Image.resize((100,100), Image.ANTIALIAS)
         # url.save(url)
-
 
         post = Post(desc=form.desc.data, user_id=current_user.id, url=url)
         # add post variable to database stage, then commit
@@ -149,12 +142,14 @@ def edit_profile():
 
         current_user.url = profile_filename
         current_user.bio = form.bio.data
+        current_user.private = form.private.data
         db.session.commit()
         flash('Your changes have been saved. Please go back to your account page.')
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
         form.pic.data = current_user.url
         form.bio.data = current_user.bio
+        form.private.data = current_user.private
     return render_template('edit_profile.html', title='Edit Profile', form=form)
 
 def send_reset_email(user):
