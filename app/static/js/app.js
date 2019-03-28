@@ -11,37 +11,13 @@ function enlargeImage() {
 })();
 // -------------------------------
 
-// ----- drag and drop image -----
-// var dragHandler = function(evt){
-//   evt.preventDefault();
-//   };
-// var dropHandler = function(evt){
-//     evt.preventDefault();
-//     var files = evt.originalEvent.dataTransfer.files;
-//     console.log(files[0]);
-// };
-// var dropHandlerSet = {
-//     dragover: dragHandler,
-//     drop: dropHandler
-// };
-// $(".droparea").on(dropHandlerSet);
+// ----- pop up comment -----
+// function myFunction() {
+//   var x = document.getElementById("card-comment");
+//   if (x.style.display === "none") {
+//     x.style.display = "block";
+//   } else {
+//     x.style.display = "none";
+//   }
+// }
 // -------------------------------
-
-// ----- starts profile pic upload -----
-// window.addEventListener("dragover", function(e) {
-//   e = e || event;
-//   e.preventDefault();
-// }, false);
-// window.addEventListener("drop", function(e) {
-//   e = e || event;
-//   e.preventDefault();
-// }, false);
-//
-// $('#dropzone')
-//   .on('drop', function(e) {
-//     e.stopPropagation();
-//     e.preventDefault();
-//     var url = e.originalEvent.dataTransfer.getData('url');
-//     $('#result').attr("src", url);
-//   });
-// ----- ends profile pic upload -----

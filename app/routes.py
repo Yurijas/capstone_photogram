@@ -3,8 +3,9 @@ import secrets
 # from PIL import Image
 from app import app, db , mail
 from flask import render_template, url_for, redirect, flash, request
-from app.forms import PostForm, LoginForm, RegisterForm, RequestResetForm, ResetPasswordForm, EditProfileForm
-from app.models import Post, User
+from app.forms import PostForm, LoginForm, RegisterForm, CommentForm, EditProfileForm
+#, RequestResetForm, ResetPasswordForm
+from app.models import Post, User, Comment
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_mail import Message
 
@@ -12,9 +13,23 @@ from flask_mail import Message
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    form = CommentForm()
+    # query public set users' for showing photos
     public_person = User.query.filter_by(private=True)
+    return render_template('index.html', title='Index', public_person=public_person, form=form)
 
-    return render_template('index.html', public_person=public_person)
+@app.route('/add_comment/<id>', methods=['GET', 'POST'])
+def add_comment(id):
+    # grab the info from form and add to db
+    comment = Comment(
+        text = request.form['text'],
+        post_id = id
+        )
+
+    # add post variable to database stage, then commit
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(url_for('index'))
 
 
 @login_required

@@ -19,17 +19,6 @@ body {
   margin-top: 100px;
 }
 
-.droparea {
-  width: 200px;
-  height: 200px;
-  border-style: solid;
-  border-width: 3px;
-  border-color: red;
-  float: left;
-  line-height: 200px;
-  text-align: center;
-  }
-
 .top-margin-sm {
   margin-top: 25px;
 }
@@ -54,32 +43,44 @@ h2.mb-6 {
   border-color: #0062cc;
 }
 
-/* #dropzone {
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-  margin: 10px;
-}
-#result {
-  margin: 10px;
-  max-width: 100px;
-} */
-
 .card {
   padding: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+p.card-subtitle {
+  font-size: 12px;
+}
+
+small {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#comment_form {
+  margin-top: 5px;
+  padding: 5px;
+  border: 2px dotted lightgray;
+}
+
+.card-comment p {
+  font-size: 10px;
+}
+
 .card-public {
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  min-height: 300px;
   margin-bottom: 25px;
 }
 
 p.card-title {
   max-width: 100%;
+  font-size: 15px;
 }
 
 p.card-text {
-  font-size: 15px;
+  font-size: 13px;
 }
 
 
@@ -218,6 +219,13 @@ footer {
 screen size adjustment and animation
 *****************************************/
 /* profile img size adjustment */
+@media only screen and (min-width: 992px) {
+  .card-public {
+    min-height: 400px;
+  }
+}
+
+/* profile img size adjustment */
 @media only screen and (max-width: 768px) {
   .profile-img {
     float: left;
@@ -227,6 +235,7 @@ screen size adjustment and animation
     border-radius: 50%;
   }
 }
+
 
 /* starts messages fade out */
 .messages {

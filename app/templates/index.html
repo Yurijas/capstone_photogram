@@ -1,22 +1,12 @@
 {% extends 'base.html' %}
-
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block title %}
   {{ super() }} - Home
-
 {% endblock %}
 
-
 {% block app_content %}
-  <!-- <div class="container mt-4">
-    <div class="float-right mb-6 mt-1">
-      <input type="hidden" role="uploadcare-uploader" id="uploadedImage" data-preview-step="true" data-effects="crop,rotate,enhance,sharp,grayscale" />
-    </div>
-    <h2 class="mb-6">Photo Feed</h2>
-    <div class="row" id="imagesContainer">
-    </div> <!--ends row for card-->
-  <!-- </div> -->
-
+<!-- <h2 class="mb-6">Photo Feed</h2> -->
   <div class="container">
     <div class="col-md-12">
       <!-- loop.index if how to create a row for every 3 items -->
@@ -38,7 +28,8 @@
                       <img class="modal-content" id="img01">
                     </div>
 
-                  </div>
+                  </div> <!-- ends card-img-top -->
+
                   <div class="card-bottom">
                     <div class="col-md-5">
                       {% if person.url != "http://placehold.it/250x250" %}
@@ -46,11 +37,33 @@
                       {% else %}
                         <img src="{{ person.avatar(36) }}" alt="Profile Image Small" class="profile-img">
                       {% endif %}
-                    </div><!--ends col-md-5-->
+                    </div> <!--ends col-md-5-->
                     <p class="card-title">@{{ person.username }}</p>
-                    <p class="card-text">{{ post.desc }}</p><br />
+                    <p class="card-text">{{ post.desc }}</p>
                     <p class="card-subtitle">{{ post.date_posted.date() }}</p>
-                  </div><!--ends card-bottom-->
+                  </div> <!--ends card-bottom-->
+
+                  <!-- <button onclick="myFunction()">Comment</button> -->
+                  <div class="card-comment" id="card-comment">
+                      {% if current_user.is_authenticated %}
+                       <!-- for post in posts  -->
+                        <form id="comment_form" action="{{ url_for('add_comment', id=post.post_id) }}" method="post" novalidate>
+                          {{ form.hidden_tag() }}
+                          <p>
+                            {{ form.text.label }}<br>
+                            {{ form.text(size=20) }}
+                          </p>
+                          <p class="comment-submit">{{ form.submit() }}</p>
+                        </form>
+                       <!-- endfor  -->
+                      {% endif %}
+                      <small>Comments</small>
+                      {% for comment in post.comments %}
+                        <p class="comment-text">{{ comment.text}}</p>
+                      {% endfor %}
+                  </div> <!--ends card-comment-->
+
+
                 </div> <!--ends card-->
               </div> <!--ends col-md-4 for card-->
             {% if loop.index % 3 == 0 or loop.length == loop.index %}

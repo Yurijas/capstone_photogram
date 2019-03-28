@@ -30,40 +30,32 @@ class RegisterForm(FlaskForm):
             flash('Sorry, but those credentials are already in use.')
             raise ValidationError('E-mail already taken.')
 
-class RequestResetForm(FlaskForm):
-    email = StringField('E-mail:', validators=[DataRequired(), Email()])
-    submit = SubmitField('Request Password Reset')
-
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user is None:
-            raise ValidationError('There is no account with that email. You must register first.')
-
-class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Re-type Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Reset Password')
-
 class EditProfileForm(FlaskForm):
     bio = StringField('About me: ')
-    pic = FileField()
+    pic = FileField(validators=[DataRequired()])
     private = BooleanField('Make your account public')
     submit = SubmitField('Submit')
 
+class CommentForm(FlaskForm):
+    text = StringField('', validators=[DataRequired()])
+    submit = SubmitField('Send')
+
+    def blog_posts(self):
+        return Post.query.order_by(Post.timestamp.desc())
+
 # , validators=[FileAllowed('jpg', 'png')]
 
-# class UpdateInfoForm(FlaskForm):
-#     username = StringField('Username:', validators=[DataRequired()])
+
+# class RequestResetForm(FlaskForm):
 #     email = StringField('E-mail:', validators=[DataRequired(), Email()])
-#     age = IntegerField('Age:')
-#     bio = StringField('Bio:')
-#     url = StringField('Profile Pic URL:')
+#     submit = SubmitField('Request Password Reset')
+#
+#     def validate_email(self, email):
+#         user = User.query.filter_by(email=email.data).first()
+#         if user is None:
+#             raise ValidationError('There is no account with that email. You must register first.')
+#
+# class ResetPasswordForm(FlaskForm):
 #     password = PasswordField('Password', validators=[DataRequired()])
 #     password2 = PasswordField('Re-type Password', validators=[DataRequired(), EqualTo('password')])
-#     submit = SubmitField('Register')
-#
-#     def validate_username(self, username):
-#         user = User.query.filter_by(username=username.data).first()
-#         if user is not None:
-#             flash('Sorry, but those credentials are already in use.')
-#             raise ValidationError('E-mail already taken.')
+#     submit = SubmitField('Reset Password')

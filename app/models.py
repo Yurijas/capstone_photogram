@@ -46,7 +46,14 @@ class Post(db.Model):
     url =db.Column(db.String(150))
     desc = db.Column(db.String(140))
     date_posted = db.Column(db.DateTime, default=datetime.now().date())
+    comments = db.relationship('Comment', backref='title', lazy='dynamic')
 
+
+class Comment(db.Model):
+    comment_id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'))
+    text = db.Column(db.String(140))
+    date_posted = db.Column(db.DateTime, default=datetime.now().date())
 
 @login.user_loader
 def load_user(id):
